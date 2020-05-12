@@ -31,12 +31,12 @@ namespace Game
 
         private static void DestroyRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
         {
-            for (var racerIndex = 0; racerIndex != racersNeedingRemoved.Count; racerIndex++)
+            foreach (var racer in racersNeedingRemoved)
             {
-                if (racers.Contains(racersNeedingRemoved[racerIndex])) // Check we've not removed this already!
+                if (racers.Contains(racer)) // Check we've not removed this already!
                 {
-                    racersNeedingRemoved[racerIndex].Destroy();
-                    racers.Remove(racersNeedingRemoved[racerIndex]);
+                    racer.Destroy();
+                    racers.Remove(racer);
                 }
             }
         }
@@ -44,12 +44,12 @@ namespace Game
         private static List<Racer> GetAliveRacers(IReadOnlyList<Racer> racers, List<Racer> racersNeedingRemoved)
         {
             var newRacerList = new List<Racer>();
-            for (var racerIndex = 0; racerIndex != racers.Count; racerIndex++)
+
+            foreach (var racer in racers)
             {
-                // check if this racer must be removed
-                if (!racersNeedingRemoved.Contains(racers[racerIndex]))
+                if (!racersNeedingRemoved.Contains(racer))
                 {
-                    newRacerList.Add(racers[racerIndex]);
+                    newRacerList.Add(racer);
                 }
             }
 
