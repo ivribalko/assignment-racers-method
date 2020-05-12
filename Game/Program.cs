@@ -9,9 +9,7 @@ namespace Game
         // TODO changing a collection within a method is very illusive and should be avoided
         internal static void UpdateRacers(float deltaTimeSeconds, List<Racer> racers)
         {
-            // TODO should probably change ms to s
-            // TODO as it is more uniform
-
+            // TODO should probably change ms to s as it is more uniform
             var deltaTimeMilliseconds = deltaTimeSeconds * 1000.0f;
 
             foreach (var racer in racers)
@@ -46,6 +44,7 @@ namespace Game
             {
                 var racerOne = racers[indexOne];
 
+                // TODO the code assumes that Collides() is commutative
                 for (var indexTwo = indexOne + 1; indexTwo < racersCount; indexTwo++)
                 {
                     var racerTwo = racers[indexTwo];

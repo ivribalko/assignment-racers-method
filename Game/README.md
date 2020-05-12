@@ -29,6 +29,8 @@
 ###### Reason: unnecessarily complicates the program execution and code reading.
 - No new lists.
 ###### Reason: every new list is a new array hence new chunk of memory allocated and CPU cycles wasted.
+- No allocations.
+###### Reason: code that runs every Update should have no memory allocations.
 - No double check collision.
 ###### Reason: collisions are supposed to be commutative meaning that a.collides(b) == b.collides(a) so we only need to check it once. The code has been rewritten however this should verified on the actual Racer implementation.
 - No unused variables.
@@ -47,3 +49,8 @@
 ###### Reason: code that runs every Update should be tested for having no allocations and this ability has (almost?) shipped for Unity.
 - LINQ could be added but requires double check.
 ###### Reason: although LINQ reads nicely its performance and IL2CPP code generation issues should be considered when using it.
+- Consider ECS.
+###### Reason: although Unity's Entity Component System is still in preview there are multiple reasons to try it as it could prove reasonable and even invaluable in case of hundreds to thousands objects.
+- Merge GetCollidedRacers() and RemoveIntersections().
+###### Reason: it might be possible to rewrite the code and iterate even less on the races collection if racer.Destroy() would stil keep CollidesWith() result instact within the same frame.
+- See in-code TODOs.
