@@ -1,13 +1,29 @@
 ### Changes to the original method:
 
 #### Readability:
-- Use var keyword.
+- var keyword.
 ###### Reason: aligns code more nicely and reduces the variativity.
 - Method name.
 ###### Reason: the name is too generic, method name should give hints on what's happening inside of it.
 - Method length.
 ###### Reason: the method is too long hindering the clear overlook of the logic that is being carried out inside of it.
+- Variable names.
+###### Reason: the name is too generic or misleading, the name should give hints on the rightful purpose of the variable.
+- IReadOnly*.
+###### Reason: using IReadOnly* will immediately give a hint that the collection is not modified which is vital in writing infallible code.
+- Unnecessary comments.
+###### Reason: code comments that duplicate the code behaviour interrupt the reading flow and simplicity. It's almost always possible to reorganize code in such manner that it doesn't require comments.
+- No IndexOf().
+###### Reason: should use Contains(); even if IndexOf() is faster the difference is neglectable.
+
+#### Performance:
+- Less loops.
+###### Reason: loops tend to increase the complexity of code very rapidly.
+- No new lists.
+###### Reason: every new list is a new array hence new chunk of memory allocated and CPU cycles wasted.
+- No unused variables.
+###### Reason: unnecessarily complicates the program execution and code reading.
 
 ### TODO:
 - Add unit tests.
-###### Reason: unit tests work best to prevent any time of misfortune may some refactoring happen to a class.
+###### Reason: unit tests is number one tool in preventing any type of misfortune may some refactoring happen to a class.

@@ -1,39 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Game
 {
-    internal class Program
+    internal class Main
     {
         internal void UpdateRacers(float deltaTimeS, List<Racer> racers)
         {
-            var racersNeedingRemoved = new List<Racer>();
-            racersNeedingRemoved.Clear();
-
             UpdateAliveRacers(deltaTimeS, racers);
 
-            PopulateCollidedRacers(racers, racersNeedingRemoved);
+            var collidedRacers = GetCollidedRacers(racers);
 
-            var newRacerList = GetAliveRacers(racers, racersNeedingRemoved);
+            var aliveRacers = GetAliveRacers(racers, collidedRacers);
 
-            DestroyRacers(racers, racersNeedingRemoved);
+            DestroyRacers(racers, collidedRacers);
 
             // Builds the list of remaining racers
-            CreateRacersList(racers, newRacerList);
+            CreateRacersList(racers, aliveRacers);
         }
 
-        private static void CreateRacersList(List<Racer> racers, List<Racer> newRacerList)
+        private static void CreateRacersList(List<Racer> racers, List<Racer> aliveRacers)
         {
             racers.Clear();
 
-            for (var racerIndex = 0; racerIndex < newRacerList.Count; racerIndex++)
+            for (var racerIndex = 0; racerIndex < aliveRacers.Count; racerIndex++)
             {
-                racers.Add(newRacerList[racerIndex]);
-            }
+                racers.Add(aliveRacers[racerIndex]);
 
-            for (var racerIndex = 0; racerIndex < newRacerList.Count; racerIndex++)
-            {
-                newRacerList.RemoveAt(0);
+                aliveRacers.RemoveAt(0);
             }
         }
 
@@ -41,8 +34,7 @@ namespace Game
         {
             for (var racerIndex = 0; racerIndex != racersNeedingRemoved.Count; racerIndex++)
             {
-                var foundRacerIndex = racers.IndexOf(racersNeedingRemoved[racerIndex]);
-                if (foundRacerIndex >= 0) // Check we've not removed this already!
+                if (racers.Contains(racersNeedingRemoved[racerIndex])) // Check we've not removed this already!
                 {
                     racersNeedingRemoved[racerIndex].Destroy();
                     racers.Remove(racersNeedingRemoved[racerIndex]);
@@ -50,13 +42,13 @@ namespace Game
             }
         }
 
-        private static List<Racer> GetAliveRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
+        private static List<Racer> GetAliveRacers(IReadOnlyList<Racer> racers, List<Racer> racersNeedingRemoved)
         {
             var newRacerList = new List<Racer>();
             for (var racerIndex = 0; racerIndex != racers.Count; racerIndex++)
             {
                 // check if this racer must be removed
-                if (racersNeedingRemoved.IndexOf(racers[racerIndex]) < 0)
+                if (!racersNeedingRemoved.Contains(racers[racerIndex]))
                 {
                     newRacerList.Add(racers[racerIndex]);
                 }
@@ -80,8 +72,10 @@ namespace Game
             }
         }
 
-        private void PopulateCollidedRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
+        private List<Racer> GetCollidedRacers(List<Racer> racers)
         {
+            var result = new List<Racer>();
+
             for (var racerIndex1 = 0; racerIndex1 < racers.Count; racerIndex1++)
             {
                 for (var racerIndex2 = 0; racerIndex2 < racers.Count; racerIndex2++)
@@ -93,17 +87,19 @@ namespace Game
                         if (racer1.IsCollidable() && racer2.IsCollidable() && racer1.CollidesWith(racer2))
                         {
                             OnRacerExplodes(racer1);
-                            racersNeedingRemoved.Add(racer1);
-                            racersNeedingRemoved.Add(racer2);
+                            result.Add(racer1);
+                            result.Add(racer2);
                         }
                     }
                 }
             }
+
+            return result;
         }
 
         private void OnRacerExplodes(Racer racer)
         {
-            throw new NotImplementedException();
+            // TODO
         }
     }
 }
