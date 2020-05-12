@@ -15,10 +15,14 @@
 ###### Reason: code comments that duplicate the code behaviour interrupt the reading flow and simplicity. It's almost always possible to reorganize code in such manner that it doesn't require comments.
 - No IndexOf().
 ###### Reason: should use Contains(); even if IndexOf() is faster the difference is neglectable.
+- foreach.
+###### Reason: for loop hinders readability; although previously in Unity foreach would create unnecessary allocations this is not the case anymore.
 
 #### Performance:
 - Less loops.
 ###### Reason: loops tend to increase the complexity of code very rapidly.
+- Less conditions.
+###### Reason: unnecessarily complicates the program execution and code reading.
 - No new lists.
 ###### Reason: every new list is a new array hence new chunk of memory allocated and CPU cycles wasted.
 - No unused variables.
@@ -27,3 +31,5 @@
 ### TODO:
 - Add unit tests.
 ###### Reason: unit tests is number one tool in preventing any type of misfortune may some refactoring happen to a class.
+- LINQ could be added but requires double check.
+###### Reason: although LINQ reads nicely its performance and IL2CPP code generation issues should be considered when using it.

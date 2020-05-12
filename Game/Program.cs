@@ -18,6 +18,18 @@ namespace Game
             CreateRacersList(racers, aliveRacers);
         }
 
+        private static void UpdateAliveRacers(float deltaTimeS, List<Racer> racers)
+        {
+            foreach (var racer in racers)
+            {
+                if (racer.IsAlive())
+                {
+                    //Racer update takes milliseconds
+                    racer.Update(deltaTimeS * 1000.0f);
+                }
+            }
+        }
+
         private static void CreateRacersList(List<Racer> racers, List<Racer> aliveRacers)
         {
             racers.Clear();
@@ -55,21 +67,6 @@ namespace Game
             }
 
             return newRacerList;
-        }
-
-        private static void UpdateAliveRacers(float deltaTimeS, List<Racer> racers)
-        {
-            for (var racerIndex = 1; racerIndex <= 1000; racerIndex++)
-            {
-                if (racerIndex <= racers.Count)
-                {
-                    if (racers[racerIndex - 1].IsAlive())
-                    {
-                        //Racer update takes milliseconds
-                        racers[racerIndex - 1].Update(deltaTimeS * 1000.0f);
-                    }
-                }
-            }
         }
 
         private List<Racer> GetCollidedRacers(List<Racer> racers)
