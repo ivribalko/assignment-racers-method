@@ -1,10 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Game
 {
-    class Program
+    internal class Program
     {
-        void UpdateRacers(float deltaTimeS, List<Racer> racers)
+        internal void UpdateRacers(float deltaTimeS, List<Racer> racers)
         {
             List<Racer> racersNeedingRemoved = new List<Racer>();
             racersNeedingRemoved.Clear();
@@ -71,6 +71,11 @@ namespace Game
             {
                 newRacerList.RemoveAt(0);
             }
+        }
+
+        private void OnRacerExplodes(Racer racer)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
