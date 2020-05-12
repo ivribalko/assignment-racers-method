@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Game
 {
@@ -24,38 +23,22 @@ namespace Game
 
             var collidedRacers = GetCollidedRacers(racers);
 
-            var aliveRacers = GetAliveRacers(racers, collidedRacers);
-
-            DestroyRacers(racers, collidedRacers);
-
-            racers = aliveRacers;
-        }
-
-        private static void DestroyRacers(ICollection<Racer> racers, IEnumerable<Racer> collidedRacers)
-        {
-            foreach (var racer in collidedRacers)
-            {
-                if (racers.Contains(racer)) // Check we've not removed this already!
-                {
-                    racer.Destroy();
-                    racers.Remove(racer);
-                }
-            }
-        }
-
-        private static List<Racer> GetAliveRacers(IEnumerable<Racer> racers, IReadOnlyList<Racer> collidedRacers)
-        {
-            var result = new List<Racer>();
+            var aliveRacers = new List<Racer>();
 
             foreach (var racer in racers)
             {
                 if (!collidedRacers.Contains(racer))
                 {
-                    result.Add(racer);
+                    aliveRacers.Add(racer);
                 }
             }
 
-            return result;
+            foreach (var racer in collidedRacers)
+            {
+                racer.Destroy();
+            }
+
+            racers = aliveRacers;
         }
 
         private static List<Racer> GetCollidedRacers(IReadOnlyList<Racer> racers)
