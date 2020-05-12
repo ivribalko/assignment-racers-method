@@ -31,7 +31,7 @@ namespace Game
             racers = aliveRacers;
         }
 
-        private static void DestroyRacers(List<Racer> racers, List<Racer> collidedRacers)
+        private static void DestroyRacers(ICollection<Racer> racers, IEnumerable<Racer> collidedRacers)
         {
             foreach (var racer in collidedRacers)
             {
@@ -58,7 +58,7 @@ namespace Game
             return result;
         }
 
-        private static List<Racer> GetCollidedRacers(List<Racer> racers)
+        private static List<Racer> GetCollidedRacers(IReadOnlyList<Racer> racers)
         {
             var result = new List<Racer>();
 
