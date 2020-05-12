@@ -35,6 +35,8 @@
 ###### Reason: it's unnecessary to copy one collection to another; if the copied collection does not change it's possible to just use the reference to it.
 - Store array elements into local variables.
 ###### Reason: accessing an element in an array takes time every execution.
+- Store mathematical operations results into local variables.
+###### Reason: repeating the same operation for producing the same result is inefficient.
 
 ### TODO:
 - Add unit tests.

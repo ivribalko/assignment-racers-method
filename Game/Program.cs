@@ -4,16 +4,18 @@ namespace Game
 {
     internal static class Main
     {
-        internal static void UpdateRacers(float deltaTimeS, ref List<Racer> racers)
+        // TODO changing a collection within a method is very illusive and should be avoided
+        internal static void UpdateRacers(float deltaTimeSeconds, List<Racer> racers)
         {
+            // TODO should probably change ms to s
+            // TODO as it is more uniform
+            var deltaTimeMilliseconds = deltaTimeSeconds * 1000.0f;
+
             foreach (var racer in racers)
             {
                 if (racer.IsAlive())
                 {
-                    // TODO should probably change ms to s
-                    // TODO as it is more uniform
-                    // Racer update takes milliseconds
-                    racer.Update(deltaTimeS * 1000.0f);
+                    racer.Update(deltaTimeMilliseconds);
                 }
             }
 
