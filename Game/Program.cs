@@ -6,7 +6,19 @@ namespace Game
     {
         internal static void UpdateRacers(float deltaTimeS, ref List<Racer> racers)
         {
-            UpdateAliveRacers(deltaTimeS, racers);
+            foreach (var racer in racers)
+            {
+                if (racer.IsAlive())
+                {
+                    // TODO should probably change ms to s
+                    // TODO as it is more natural for Unity
+                    // Racer update takes milliseconds
+                    racer.Update(deltaTimeS * 1000.0f);
+                }
+            }
+
+            // TODO check that only IsAlive() racers could be used
+            // TODO doesn't make sense that not IsAlive() can still be IsCollidable()
 
             var collidedRacers = GetCollidedRacers(racers);
 
@@ -15,18 +27,6 @@ namespace Game
             DestroyRacers(racers, collidedRacers);
 
             racers = aliveRacers;
-        }
-
-        private static void UpdateAliveRacers(float deltaTimeS, List<Racer> racers)
-        {
-            foreach (var racer in racers)
-            {
-                if (racer.IsAlive())
-                {
-                    //Racer update takes milliseconds
-                    racer.Update(deltaTimeS * 1000.0f);
-                }
-            }
         }
 
         private static void DestroyRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
