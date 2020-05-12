@@ -2,9 +2,9 @@
 
 namespace Game
 {
-    internal class Main
+    internal static class Main
     {
-        internal void UpdateRacers(float deltaTimeS, ref List<Racer> racers)
+        internal static void UpdateRacers(float deltaTimeS, ref List<Racer> racers)
         {
             UpdateAliveRacers(deltaTimeS, racers);
 
@@ -56,7 +56,7 @@ namespace Game
             return newRacerList;
         }
 
-        private List<Racer> GetCollidedRacers(List<Racer> racers)
+        private static List<Racer> GetCollidedRacers(List<Racer> racers)
         {
             var result = new List<Racer>();
 
@@ -81,7 +81,7 @@ namespace Game
             return result;
         }
 
-        private void OnRacerExplodes(Racer racer)
+        private static void OnRacerExplodes(Racer racer)
         {
             // TODO
         }

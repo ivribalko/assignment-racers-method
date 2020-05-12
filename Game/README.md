@@ -3,6 +3,8 @@
 #### Readability:
 - var keyword.
 ###### Reason: aligns code more nicely and reduces the variativity.
+- static keyword.
+###### Reason: static keyword on a method shows that it is pure and doesn't change class state.
 - Method name.
 ###### Reason: the name is too generic, method name should give hints on what's happening inside of it.
 - Method length.
