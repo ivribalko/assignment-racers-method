@@ -21,24 +21,19 @@ namespace Game
             // TODO not IsAlive() should not still be IsCollidable()
             // TODO and therefore can be skipped
 
-            var collidedRacers = GetCollidedRacers(racers);
+            var remove = GetCollidedRacers(racers);
 
-            var aliveRacers = new List<Racer>();
-
-            foreach (var racer in racers)
+            for (var index = racers.Count - 1; index >= 0; index--)
             {
-                if (!collidedRacers.Contains(racer))
+                var racer = racers[index];
+
+                if (remove.Contains(racer))
                 {
-                    aliveRacers.Add(racer);
+                    racers.RemoveAt(index);
+
+                    racer.Destroy();
                 }
             }
-
-            foreach (var racer in collidedRacers)
-            {
-                racer.Destroy();
-            }
-
-            racers = aliveRacers;
         }
 
         private static List<Racer> GetCollidedRacers(IReadOnlyList<Racer> racers)
