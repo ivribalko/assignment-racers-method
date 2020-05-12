@@ -4,11 +4,14 @@ namespace Game
 {
     internal static class Main
     {
+        private static List<Racer> cache = new List<Racer>();
+
         // TODO changing a collection within a method is very illusive and should be avoided
         internal static void UpdateRacers(float deltaTimeSeconds, List<Racer> racers)
         {
             // TODO should probably change ms to s
             // TODO as it is more uniform
+
             var deltaTimeMilliseconds = deltaTimeSeconds * 1000.0f;
 
             foreach (var racer in racers)
@@ -23,24 +26,19 @@ namespace Game
             // TODO not IsAlive() should not still be IsCollidable()
             // TODO and therefore can be skipped
 
-            var remove = GetCollidedRacers(racers);
+            GetCollidedRacers(
+                racers: racers,
+                result: ref cache);
 
-            for (var index = racers.Count - 1; index >= 0; index--)
-            {
-                var racer = racers[index];
-
-                if (remove.Contains(racer))
-                {
-                    racers.RemoveAt(index);
-
-                    racer.Destroy();
-                }
-            }
+            Util.RemoveIntersections(
+                list: racers,
+                remove: cache,
+                onRemoved: OnRemoved);
         }
 
-        private static List<Racer> GetCollidedRacers(IReadOnlyList<Racer> racers)
+        private static void GetCollidedRacers(IReadOnlyList<Racer> racers, ref List<Racer> result)
         {
-            var result = new List<Racer>();
+            result.Clear();
 
             var racersCount = racers.Count;
 
@@ -54,21 +52,24 @@ namespace Game
 
                     if (Collides(racerOne, racerTwo))
                     {
-                        OnRacerExplodes(racerOne);
-                        OnRacerExplodes(racerTwo);
                         result.Add(racerOne);
                         result.Add(racerTwo);
                     }
                 }
             }
-
-            return result;
         }
 
         private static bool Collides(Racer racerOne, Racer racerTwo) =>
             racerOne.IsCollidable() &&
             racerTwo.IsCollidable() &&
             racerOne.CollidesWith(racerTwo);  // TODO move IsCollidable into CollidesWith
+
+        private static void OnRemoved(Racer racer)
+        {
+            OnRacerExplodes(racer);
+
+            racer.Destroy();
+        }
 
         private static void OnRacerExplodes(Racer racer)
         {

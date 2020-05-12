@@ -19,6 +19,8 @@
 ###### Reason: should use Contains(); even if IndexOf() is faster the difference is neglectable.
 - foreach.
 ###### Reason: for loop hinders readability; although previously in Unity foreach would create unnecessary allocations this is not the case anymore.
+- Reusable generic code.
+###### Reason: code should be written in a way that allows it to be reusable (especially for very common use cases) to reduce duplication.
 
 #### Performance:
 - Less loops.
