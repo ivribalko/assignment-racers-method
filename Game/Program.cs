@@ -11,7 +11,7 @@ namespace Game
                 if (racer.IsAlive())
                 {
                     // TODO should probably change ms to s
-                    // TODO as it is more natural for Unity
+                    // TODO as it is more uniform
                     // Racer update takes milliseconds
                     racer.Update(deltaTimeS * 1000.0f);
                 }

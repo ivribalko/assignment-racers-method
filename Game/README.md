@@ -39,5 +39,7 @@
 ### TODO:
 - Add unit tests.
 ###### Reason: unit tests is number one tool in preventing any type of misfortune may some refactoring happen to a class.
+- Add unit tests for no allocations.
+###### Reason: code that runs every Update should be tested for having no allocations and this ability has (almost?) shipped for Unity.
 - LINQ could be added but requires double check.
 ###### Reason: although LINQ reads nicely its performance and IL2CPP code generation issues should be considered when using it.
