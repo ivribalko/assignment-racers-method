@@ -9,7 +9,6 @@ namespace Game
             IList<T> list,
             ICollection<T> remove,
             Action<T> onRemoved)
-            where T : Racer
         {
             for (var index = list.Count - 1; index >= 0; index--)
             {
@@ -18,7 +17,7 @@ namespace Game
                 if (remove.Contains(item))
                 {
                     list.RemoveAt(index);
-                    
+
                     onRemoved?.Invoke(item);
                 }
             }
