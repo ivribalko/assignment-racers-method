@@ -6,3 +6,10 @@
 
 ###### Reason: aligns code more nicely and reduces the variativity.
 
+- Method name.
+
+###### Reason: the name is too generic, method name should give hints on what's happening inside of it.
+
+- Method length.
+
+###### Reason: the method is too long hindering the clear overlook of the logic that is being carried out inside of it.

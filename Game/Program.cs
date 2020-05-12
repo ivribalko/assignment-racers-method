@@ -10,9 +10,64 @@ namespace Game
             var racersNeedingRemoved = new List<Racer>();
             racersNeedingRemoved.Clear();
 
-            // Updates the racers that are alive
-            var racerIndex = 0;
-            for (racerIndex = 1; racerIndex <= 1000; racerIndex++)
+            UpdateAliveRacers(deltaTimeS, racers);
+
+            PopulateCollidedRacers(racers, racersNeedingRemoved);
+
+            var newRacerList = GetAliveRacers(racers, racersNeedingRemoved);
+
+            DestroyRacers(racers, racersNeedingRemoved);
+
+            // Builds the list of remaining racers
+            CreateRacersList(racers, newRacerList);
+        }
+
+        private static void CreateRacersList(List<Racer> racers, List<Racer> newRacerList)
+        {
+            racers.Clear();
+
+            for (var racerIndex = 0; racerIndex < newRacerList.Count; racerIndex++)
+            {
+                racers.Add(newRacerList[racerIndex]);
+            }
+
+            for (var racerIndex = 0; racerIndex < newRacerList.Count; racerIndex++)
+            {
+                newRacerList.RemoveAt(0);
+            }
+        }
+
+        private static void DestroyRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
+        {
+            for (var racerIndex = 0; racerIndex != racersNeedingRemoved.Count; racerIndex++)
+            {
+                var foundRacerIndex = racers.IndexOf(racersNeedingRemoved[racerIndex]);
+                if (foundRacerIndex >= 0) // Check we've not removed this already!
+                {
+                    racersNeedingRemoved[racerIndex].Destroy();
+                    racers.Remove(racersNeedingRemoved[racerIndex]);
+                }
+            }
+        }
+
+        private static List<Racer> GetAliveRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
+        {
+            var newRacerList = new List<Racer>();
+            for (var racerIndex = 0; racerIndex != racers.Count; racerIndex++)
+            {
+                // check if this racer must be removed
+                if (racersNeedingRemoved.IndexOf(racers[racerIndex]) < 0)
+                {
+                    newRacerList.Add(racers[racerIndex]);
+                }
+            }
+
+            return newRacerList;
+        }
+
+        private static void UpdateAliveRacers(float deltaTimeS, List<Racer> racers)
+        {
+            for (var racerIndex = 1; racerIndex <= 1000; racerIndex++)
             {
                 if (racerIndex <= racers.Count)
                 {
@@ -23,8 +78,10 @@ namespace Game
                     }
                 }
             }
+        }
 
-            // Collides
+        private void PopulateCollidedRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
+        {
             for (var racerIndex1 = 0; racerIndex1 < racers.Count; racerIndex1++)
             {
                 for (var racerIndex2 = 0; racerIndex2 < racers.Count; racerIndex2++)
@@ -41,40 +98,6 @@ namespace Game
                         }
                     }
                 }
-            }
-
-            // Gets the racers that are still alive
-            var newRacerList = new List<Racer>();
-            for (racerIndex = 0; racerIndex != racers.Count; racerIndex++)
-            {
-                // check if this racer must be removed
-                if (racersNeedingRemoved.IndexOf(racers[racerIndex]) < 0)
-                {
-                    newRacerList.Add(racers[racerIndex]);
-                }
-            }
-
-            // Get rid of all the exploded racers
-            for (racerIndex = 0; racerIndex != racersNeedingRemoved.Count; racerIndex++)
-            {
-                var foundRacerIndex = racers.IndexOf(racersNeedingRemoved[racerIndex]);
-                if (foundRacerIndex >= 0) // Check we've not removed this already!
-                {
-                    racersNeedingRemoved[racerIndex].Destroy();
-                    racers.Remove(racersNeedingRemoved[racerIndex]);
-                }
-            }
-
-            // Builds the list of remaining racers
-            racers.Clear();
-            for (racerIndex = 0; racerIndex < newRacerList.Count; racerIndex++)
-            {
-                racers.Add(newRacerList[racerIndex]);
-            }
-
-            for (racerIndex = 0; racerIndex < newRacerList.Count; racerIndex++)
-            {
-                newRacerList.RemoveAt(0);
             }
         }
 
