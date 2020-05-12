@@ -27,6 +27,8 @@
 ###### Reason: unnecessarily complicates the program execution and code reading.
 - No new lists.
 ###### Reason: every new list is a new array hence new chunk of memory allocated and CPU cycles wasted.
+- No double check collision.
+###### Reason: collisions are supposed to be commutative meaning that a.collides(b) == b.collides(a) so we only need to check it once. The code has been rewritten however this should verified on the actual Racer implementation.
 - No unused variables.
 ###### Reason: unnecessarily complicates the program execution and code reading.
 - use ref instead of copy.

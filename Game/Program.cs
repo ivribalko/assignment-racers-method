@@ -60,26 +60,33 @@ namespace Game
         {
             var result = new List<Racer>();
 
-            for (var racerIndex1 = 0; racerIndex1 < racers.Count; racerIndex1++)
+            var racersCount = racers.Count;
+
+            for (var indexOne = 0; indexOne < racersCount - 1; indexOne++)
             {
-                for (var racerIndex2 = 0; racerIndex2 < racers.Count; racerIndex2++)
+                var racerOne = racers[indexOne];
+
+                for (var indexTwo = indexOne + 1; indexTwo < racersCount; indexTwo++)
                 {
-                    var racer1 = racers[racerIndex1];
-                    var racer2 = racers[racerIndex2];
-                    if (racerIndex1 != racerIndex2)
+                    var racerTwo = racers[indexTwo];
+
+                    if (Collides(racerOne, racerTwo))
                     {
-                        if (racer1.IsCollidable() && racer2.IsCollidable() && racer1.CollidesWith(racer2))
-                        {
-                            OnRacerExplodes(racer1);
-                            result.Add(racer1);
-                            result.Add(racer2);
-                        }
+                        OnRacerExplodes(racerOne);
+                        OnRacerExplodes(racerTwo);
+                        result.Add(racerOne);
+                        result.Add(racerTwo);
                     }
                 }
             }
 
             return result;
         }
+
+        private static bool Collides(Racer racerOne, Racer racerTwo) =>
+            racerOne.IsCollidable() &&
+            racerTwo.IsCollidable() &&
+            racerOne.CollidesWith(racerTwo);  // TODO move IsCollidable into CollidesWith
 
         private static void OnRacerExplodes(Racer racer)
         {
