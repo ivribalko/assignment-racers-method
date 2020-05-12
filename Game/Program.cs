@@ -4,7 +4,7 @@ namespace Game
 {
     internal class Main
     {
-        internal void UpdateRacers(float deltaTimeS, List<Racer> racers)
+        internal void UpdateRacers(float deltaTimeS, ref List<Racer> racers)
         {
             UpdateAliveRacers(deltaTimeS, racers);
 
@@ -14,8 +14,7 @@ namespace Game
 
             DestroyRacers(racers, collidedRacers);
 
-            // Builds the list of remaining racers
-            CreateRacersList(racers, aliveRacers);
+            racers = aliveRacers;
         }
 
         private static void UpdateAliveRacers(float deltaTimeS, List<Racer> racers)
@@ -27,18 +26,6 @@ namespace Game
                     //Racer update takes milliseconds
                     racer.Update(deltaTimeS * 1000.0f);
                 }
-            }
-        }
-
-        private static void CreateRacersList(List<Racer> racers, List<Racer> aliveRacers)
-        {
-            racers.Clear();
-
-            for (var racerIndex = 0; racerIndex < aliveRacers.Count; racerIndex++)
-            {
-                racers.Add(aliveRacers[racerIndex]);
-
-                aliveRacers.RemoveAt(0);
             }
         }
 

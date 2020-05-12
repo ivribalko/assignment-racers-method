@@ -27,6 +27,10 @@
 ###### Reason: every new list is a new array hence new chunk of memory allocated and CPU cycles wasted.
 - No unused variables.
 ###### Reason: unnecessarily complicates the program execution and code reading.
+- use ref instead of copy.
+###### Reason: it's unnecessary to copy one collection to another; if the copied collection does not change it's possible to just use the reference to it.
+- Store array elements into local variables.
+###### Reason: accessing an element in an array takes time every execution.
 
 ### TODO:
 - Add unit tests.
