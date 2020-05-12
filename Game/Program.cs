@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Game
 {
@@ -18,7 +19,8 @@ namespace Game
             }
 
             // TODO check that only IsAlive() racers could be used
-            // TODO doesn't make sense that not IsAlive() can still be IsCollidable()
+            // TODO not IsAlive() should not still be IsCollidable()
+            // TODO and therefore can be skipped
 
             var collidedRacers = GetCollidedRacers(racers);
 
@@ -29,9 +31,9 @@ namespace Game
             racers = aliveRacers;
         }
 
-        private static void DestroyRacers(List<Racer> racers, List<Racer> racersNeedingRemoved)
+        private static void DestroyRacers(List<Racer> racers, List<Racer> collidedRacers)
         {
-            foreach (var racer in racersNeedingRemoved)
+            foreach (var racer in collidedRacers)
             {
                 if (racers.Contains(racer)) // Check we've not removed this already!
                 {
@@ -41,19 +43,19 @@ namespace Game
             }
         }
 
-        private static List<Racer> GetAliveRacers(IReadOnlyList<Racer> racers, List<Racer> racersNeedingRemoved)
+        private static List<Racer> GetAliveRacers(IEnumerable<Racer> racers, IReadOnlyList<Racer> collidedRacers)
         {
-            var newRacerList = new List<Racer>();
+            var result = new List<Racer>();
 
             foreach (var racer in racers)
             {
-                if (!racersNeedingRemoved.Contains(racer))
+                if (!collidedRacers.Contains(racer))
                 {
-                    newRacerList.Add(racer);
+                    result.Add(racer);
                 }
             }
 
-            return newRacerList;
+            return result;
         }
 
         private static List<Racer> GetCollidedRacers(List<Racer> racers)
